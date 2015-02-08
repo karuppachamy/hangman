@@ -8,10 +8,10 @@ Class GameService
     private $wordService;
 
     /**
-     * @param $app
-     * @param null $wordService
+     * @param \Slim\Slim $app
+     * @param \Model\WordService|null $wordService
      */
-    function __construct($app, $wordService = null)
+    function __construct(\Slim\Slim $app, \Model\WordService $wordService = null)
     {
         $this->entityManager = $app->entityManager;
         $this->wordService = $wordService;
