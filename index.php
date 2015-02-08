@@ -23,8 +23,7 @@ $app->post('/game', function () use ($app) {
 $app->put('/game/:id', function ($id) use ($app) {
         $gameService = new GameService($app);
         $gameData = json_decode($app->getInstance()->request()->getBody());
-        var_dump(v::key('char', v::equals('a'))->validate($gameData)); //true
-        exit;
+
         $game = $gameService->updateGame($id, $gameData);
 
         return $app->response->setBody(json_encode($game));
