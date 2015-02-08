@@ -1,10 +1,15 @@
 <?php
 use Model\GameService;
 
-class GameService extends PHPUnit_Framework_TestCase
+class GameServiceTest extends PHPUnit_Framework_TestCase
 {
-    public function testUnderscore()
+    public function testConvertToUnderScore()
     {
-        echo 'Joo';
+        $word = 'convertmetounderscore';
+
+        $gameService = new GameService(new \Slim\Slim());
+        $convertedWord = $gameService->convertToUnderScore($word);
+
+        $this->assertEquals(strlen($word), strlen($convertedWord));
     }
 }

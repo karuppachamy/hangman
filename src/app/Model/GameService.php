@@ -37,7 +37,7 @@ Class GameService
         return $game->toArray();
     }
 
-    private function convertToUnderScore($word)
+    public function convertToUnderScore($word)
     {
         return str_repeat('-', strlen($word));
     }

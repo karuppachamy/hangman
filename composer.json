@@ -8,7 +8,8 @@
     "autoload": {
         "psr-4": {
             "Model\\": "src/app/Model",
-            "Service\\": "src/app/Service"
+            "Service\\": "src/app/Service",
+            "Phpunit\\":"src/app/phpunit"
         }
     }
 }

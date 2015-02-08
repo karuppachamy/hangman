@@ -21,6 +21,7 @@ $app->post('/game', function () use ($app) {
 );
 
 $app->put('/game/:id', function ($id) use ($app) {
+
         $gameService = new GameService($app);
         $gameData = json_decode($app->getInstance()->request()->getBody());
 
