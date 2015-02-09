@@ -23,6 +23,7 @@ Class GameService
         $game->setWord($this->wordService->getRandomWord());
         $game->setGuessWord($this->convertToUnderScore($game->getWord()));
         $game->setTries(0);
+        $game->setStatus(0);
         $this->save($game);
 
         return $game->toArray();
@@ -53,6 +54,19 @@ Class GameService
             $game->setGuessWord($processedWord);
         } else {
             $game->setTries(1);
+        }
+        
+        $this->updateGameStatus($game);
+    }
+    
+    private function updateGameStatus($game)
+    {
+        if ($game->isSuccess()) {
+            $game->setStatus(2);
+        }
+        
+        if ($game->isFailure()){
+            $game->setStatus(1);
         }
     }
 

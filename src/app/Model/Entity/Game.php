@@ -37,6 +37,13 @@ class Game
      * @Column(name="guessword", type="string", length=64)
      */
     private $guessWord;
+    
+    /**
+     *
+     * @var integer
+     * @Column(name="status", type="integer", length=2)
+     */
+    private $status;
 
     const MAX_TRIES = 11;
 
@@ -114,7 +121,15 @@ class Game
         return (self::MAX_TRIES - $this->getTries() == 0);
     }
 
-    public function toArray()
+    public function getStatus() {
+        return $this->status;
+    }
+
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
+        public function toArray()
     {
         $data = array();
 
@@ -125,7 +140,8 @@ class Game
         $data['remainingTries'] = self::MAX_TRIES - $this->getTries();
         $data['success'] = $this->isSuccess();
         $data['failure'] = $this->isFailure();
-
+        $data['status'] = $this->getStatus();
+        
         return $data;
     }
 
