@@ -1,6 +1,7 @@
 <?php
 namespace Model;
 
+use Model\Entity\Game;
 Class GameService
 {
 
@@ -19,7 +20,7 @@ Class GameService
 
     public function createNewGame()
     {
-        $game = new \Model\Entity\Game();
+        $game = new Game();
         $game->setWord($this->wordService->getRandomWord());
         $game->setGuessWord($this->convertToUnderScore($game->getWord()));
         $game->setTries(0);
@@ -29,6 +30,18 @@ Class GameService
         return $game->toArray();
     }
 
+    public function getAllGames()
+    {
+        $games = $this->entityManager->getRepository('Model\Entity\Game')->findAll();
+
+        $data = array_map(
+            function ($game)
+            {
+               return $game->toArray();
+            }, $games);
+
+        return $data;
+    }
     public function updateGame($id, $gameData)
     {
         $game = $this->entityManager->getRepository('Model\Entity\Game')->find($id);
@@ -62,11 +75,11 @@ Class GameService
     private function updateGameStatus($game)
     {
         if ($game->isSuccess()) {
-            $game->setStatus(2);
+            $game->setStatus(Game::GAME_STATUS_SUCCESS);
         }
         
         if ($game->isFailure()){
-            $game->setStatus(1);
+            $game->setStatus(Game::GAME_STATUS_FAILURE);
         }
     }
 

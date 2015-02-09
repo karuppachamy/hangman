@@ -6,8 +6,10 @@ use Model\WordService;
 
 use Respect\Validation\Validator  as v;
 
-$app->get('/hello', function() use ($app) {
-    $userService = new UserService($app);
+$app->get('/game', function() use ($app) {
+    $gameService = new GameService($app);
+    $data = $gameService->getAllGames();
+    return $app->response->setBody(json_encode($data));
 });
 
 
