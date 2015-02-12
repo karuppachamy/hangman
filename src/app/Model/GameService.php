@@ -2,22 +2,29 @@
 namespace Model;
 
 use Model\Entity\Game;
-
+use Model\WordService;
+use Model\PersistenceService;
 class GameService
 {
     private $wordService;
     private $persistenceService;
 
     /**
-     * @param \Slim\Slim $app
-     * @param \Model\WordService|null $wordService
+     * 
+     * @param \Model\PersistenceService $persistenceService
+     * @param \Model\WordService $wordService
      */
-    public function __construct($persistenceService, \Model\WordService $wordService = null)
+    public function __construct(PersistenceService $persistenceService, WordService $wordService = null)
     {
         $this->wordService = $wordService;
         $this->persistenceService = $persistenceService;
     }
 
+    /**
+     * Create a new game.
+     * 
+     * @return Model\Entity\Game
+     */
     public function createNewGame()
     {
         $game = $this->prepareGameObject();
@@ -26,6 +33,13 @@ class GameService
         return $game;
     }
 
+    /**
+     * Prepare the New/Existing based on the inputs.
+     * 
+     * @param type $id
+     * 
+     * @return \Model\Entity\Game
+     */
     private function prepareGameObject($id = null)
     {
         if ($id) {
@@ -41,6 +55,11 @@ class GameService
         return $game;
     }
     
+    /**
+     * Get all the available games.
+     * 
+     * @return type array
+     */
     public function getAllGames()
     {
         $games = $this->persistenceService->findAllGames();
