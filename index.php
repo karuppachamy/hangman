@@ -12,8 +12,12 @@ $app->response->headers->set('Content-Type', 'application/json');
 $app->get('/game', function() use ($app, $entityManager) {
     $persistenceService = new PersistenceService($entityManager);
     $gameService = new GameService($persistenceService);
-    $data = $gameService->getAllGames();
-    
+    $games = $gameService->getAllGames();
+            $data = array_map(
+            function ($game)
+            {
+               return $game->toArray();
+            }, $games);
     return $app->response->setBody(json_encode($data));
 });
 
@@ -24,7 +28,7 @@ $app->post('/game', function () use ($app, $entityManager) {
     $gameService = new GameService($persistenceService, $wordService);
     $game = $gameService->createNewGame();
     
-    return $app->response->setBody(json_encode($game));
+    return $app->response->setBody(json_encode($game->toArray()));
 }
 );
 
@@ -40,7 +44,7 @@ $app->put('/game/:id', function ($id) use ($app, $entityManager) {
     $gameData = json_decode($inputData);
     $game = $gameService->updateGame($id, $gameData);
 
-        return $app->response->setBody(json_encode($game));
+        return $app->response->setBody(json_encode($game->toArray()));
     }
 );
 

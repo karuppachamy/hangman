@@ -4,8 +4,6 @@ namespace Model;
 use Model\Entity\Game;
 Class GameService
 {
-
-    private $entityManager;
     private $wordService;
     private $persistenceService;
 
@@ -21,35 +19,42 @@ Class GameService
 
     public function createNewGame()
     {
+        $game = $this->prepareGameObject();
+        $this->persistenceService->save($game);
+
+        return $game;
+    }
+
+    private function prepareGameObject($id = null)
+    {
+        if ($id) {
+            return $this->persistenceService->findOneGameById($id);
+        }
+        
         $game = new Game();
         $game->setWord($this->wordService->getRandomWord());
         $game->setGuessWord($this->convertToUnderScore($game->getWord()));
         $game->setTries(0);
-        $game->setStatus(0);
-        $this->persistenceService->save($game);
-
-        return $game->toArray();
+        $game->setStatus(0); 
+        
+        return $game;
     }
-
+    
     public function getAllGames()
     {
         $games = $this->persistenceService->findAllGames();
-
-        $data = array_map(
-            function ($game)
-            {
-               return $game->toArray();
-            }, $games);
-
-        return $data;
+        
+        return $games;
     }
+    
     public function updateGame($id, $gameData)
     {
-        $game = $this->persistenceService->findOneGameById($id);
+        $game = $this->prepareGameObject($id);
+        
         $this->processGuess($game, $gameData);
         $this->persistenceService->save($game);
 
-        return $game->toArray();
+        return $game;
     }
 
     public function convertToUnderScore($word)
@@ -61,8 +66,8 @@ Class GameService
     {
         $originalWord = str_split($game->getWord());
         $guessCharacter = array($gameData->char);
-
         $guessedCharacters = $this->checkGuess($originalWord, $guessCharacter);
+        
         if (count($guessedCharacters) > 0) {
             $processedWord =  $this->replaceUnderScoreWithCharacter($guessedCharacters, $game);
             $game->setGuessWord($processedWord);
@@ -94,13 +99,11 @@ Class GameService
     private function replaceUnderScoreWithCharacter($guessedCharacters, $game)
     {
         $guessedWord = str_split($game->getGuessWord());
-
         array_walk($guessedWord, function (&$value, $key) use ($guessedCharacters) {
             if (array_key_exists($key, $guessedCharacters)){
                 $value = $guessedCharacters[$key];
             }
         });
-
         return (implode('', $guessedWord));
     }
 }
