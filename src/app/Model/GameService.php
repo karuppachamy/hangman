@@ -2,7 +2,8 @@
 namespace Model;
 
 use Model\Entity\Game;
-Class GameService
+
+class GameService
 {
     private $wordService;
     private $persistenceService;
@@ -11,7 +12,7 @@ Class GameService
      * @param \Slim\Slim $app
      * @param \Model\WordService|null $wordService
      */
-    function __construct($persistenceService, \Model\WordService $wordService = null)
+    public function __construct($persistenceService, \Model\WordService $wordService = null)
     {
         $this->wordService = $wordService;
         $this->persistenceService = $persistenceService;
@@ -35,7 +36,7 @@ Class GameService
         $game->setWord($this->wordService->getRandomWord());
         $game->setGuessWord($this->convertToUnderScore($game->getWord()));
         $game->setTries(0);
-        $game->setStatus(0); 
+        $game->setStatus(0);
         
         return $game;
     }
@@ -84,7 +85,7 @@ Class GameService
             $game->setStatus(Game::GAME_STATUS_SUCCESS);
         }
         
-        if ($game->isFailure()){
+        if ($game->isFailure()) {
             $game->setStatus(Game::GAME_STATUS_FAILURE);
         }
     }
@@ -100,7 +101,7 @@ Class GameService
     {
         $guessedWord = str_split($game->getGuessWord());
         array_walk($guessedWord, function (&$value, $key) use ($guessedCharacters) {
-            if (array_key_exists($key, $guessedCharacters)){
+            if (array_key_exists($key, $guessedCharacters)) {
                 $value = $guessedCharacters[$key];
             }
         });
