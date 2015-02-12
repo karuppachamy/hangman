@@ -7,15 +7,16 @@ Class GameService
 
     private $entityManager;
     private $wordService;
+    private $persistenceService;
 
     /**
      * @param \Slim\Slim $app
      * @param \Model\WordService|null $wordService
      */
-    function __construct(\Slim\Slim $app, \Model\WordService $wordService = null)
+    function __construct($persistenceService, \Model\WordService $wordService = null)
     {
-        $this->entityManager = $app->entityManager;
         $this->wordService = $wordService;
+        $this->persistenceService = $persistenceService;
     }
 
     public function createNewGame()
@@ -25,14 +26,14 @@ Class GameService
         $game->setGuessWord($this->convertToUnderScore($game->getWord()));
         $game->setTries(0);
         $game->setStatus(0);
-        $this->save($game);
+        $this->persistenceService->save($game);
 
         return $game->toArray();
     }
 
     public function getAllGames()
     {
-        $games = $this->entityManager->getRepository('Model\Entity\Game')->findAll();
+        $games = $this->persistenceService->findAllGames();
 
         $data = array_map(
             function ($game)
@@ -44,9 +45,9 @@ Class GameService
     }
     public function updateGame($id, $gameData)
     {
-        $game = $this->entityManager->getRepository('Model\Entity\Game')->find($id);
+        $game = $this->persistenceService->findOneGameById($id);
         $this->processGuess($game, $gameData);
-        $this->save($game);
+        $this->persistenceService->save($game);
 
         return $game->toArray();
     }
@@ -101,11 +102,5 @@ Class GameService
         });
 
         return (implode('', $guessedWord));
-    }
-
-    private function save($object)
-    {
-        $this->entityManager->persist($object);
-        $this->entityManager->flush();
     }
 }
