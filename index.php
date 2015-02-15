@@ -14,11 +14,12 @@ $app->get('/game', function() use ($app, $entityManager) {
     $gameService = new GameService($persistenceService);
     $games = $gameService->getAllGames();
             $data = array_map(
-            function ($game)
-            {
-               return $game->toArray();
-            }, $games);
-    return $app->response->setBody(json_encode($data));
+                function ($game) {
+                    return $game->toArray();
+                },
+                $games
+            );
+            return $app->response->setBody(json_encode($data));
 });
 
 
@@ -29,8 +30,7 @@ $app->post('/game', function () use ($app, $entityManager) {
     $game = $gameService->createNewGame();
     
     return $app->response->setBody(json_encode($game->toArray()));
-}
-);
+});
 
 $app->put('/game/:id', function ($id) use ($app, $entityManager) {
     $validationService = new ValidationService();
@@ -45,8 +45,6 @@ $app->put('/game/:id', function ($id) use ($app, $entityManager) {
     $game = $gameService->updateGame($id, $gameData);
 
         return $app->response->setBody(json_encode($game->toArray()));
-    }
-);
+});
 
 $app->run();
-

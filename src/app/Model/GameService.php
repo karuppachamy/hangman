@@ -4,13 +4,14 @@ namespace Model;
 use Model\Entity\Game;
 use Model\WordService;
 use Model\PersistenceService;
+
 class GameService
 {
     private $wordService;
     private $persistenceService;
 
     /**
-     * 
+     *
      * @param \Model\PersistenceService $persistenceService
      * @param \Model\WordService $wordService
      */
@@ -22,7 +23,7 @@ class GameService
 
     /**
      * Create a new game.
-     * 
+     *
      * @return Model\Entity\Game
      */
     public function createNewGame()
@@ -35,9 +36,9 @@ class GameService
 
     /**
      * Prepare the New/Existing based on the inputs.
-     * 
-     * @param type $id
-     * 
+     *
+     * @param integer $id
+     *
      * @return \Model\Entity\Game
      */
     private function prepareGameObject($id = null)
@@ -57,8 +58,8 @@ class GameService
     
     /**
      * Get all the available games.
-     * 
-     * @return type array
+     *
+     * @return array $games
      */
     public function getAllGames()
     {
@@ -66,7 +67,15 @@ class GameService
         
         return $games;
     }
-    
+
+    /**
+     * Update the game information.
+     *
+     * @param integer $id
+     * @param array $gameData
+     *
+     * @return \Model\Entity\Game Game
+     */
     public function updateGame($id, $gameData)
     {
         $game = $this->prepareGameObject($id);
@@ -77,12 +86,25 @@ class GameService
         return $game;
     }
 
+    /**
+     * Convert all the characters to under score.
+     *
+     * @param string $word
+     *
+     * @return string
+     */
     public function convertToUnderScore($word)
     {
         return str_repeat('-', strlen($word));
     }
 
-    private function processGuess($game, $gameData)
+    /**
+     * Process the guessed characters and update accordingly.
+     *
+     * @param \Model\Entity\Game $game
+     * @param Object $gameData
+     */
+    private function processGuess(Game $game, $gameData)
     {
         $originalWord = str_split($game->getWord());
         $guessCharacter = array($gameData->char);
@@ -97,7 +119,12 @@ class GameService
         
         $this->updateGameStatus($game);
     }
-    
+
+    /**
+     * Update the status of the game.
+     *
+     * @param Game $game
+     */
     private function updateGameStatus($game)
     {
         if ($game->isSuccess()) {
@@ -109,6 +136,14 @@ class GameService
         }
     }
 
+    /**
+     * Check the guess is correct and return the correctly guessed characters.
+     *
+     * @param array $originalWord
+     * @param array $guessCharacter
+     *
+     * @return array
+     */
     private function checkGuess(array $originalWord, array $guessCharacter)
     {
         $guessedCharacters = array_intersect($originalWord, $guessCharacter);
@@ -116,7 +151,15 @@ class GameService
         return $guessedCharacters;
     }
 
-    private function replaceUnderScoreWithCharacter($guessedCharacters, $game)
+    /**
+     * Based on the guessed character update the underscore string.
+     *
+     * @param string $guessedCharacters
+     * @param \Model\Entity\Game $game
+     *
+     * @return string
+     */
+    private function replaceUnderScoreWithCharacter($guessedCharacters, Game $game)
     {
         $guessedWord = str_split($game->getGuessWord());
         array_walk($guessedWord, function (&$value, $key) use ($guessedCharacters) {

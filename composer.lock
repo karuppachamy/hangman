@@ -1,7 +1,8 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
     "hash": "6d3b55310fbe885cf396b777a4773be7",
     "packages": [
@@ -1096,12 +1097,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Respect/Validation.git",
-                "reference": "16a72ade950aaf433c387dd3fd3eb70cf296b152"
+                "reference": "d08f032c9ec1e3e2cfa6f8c53c64035fa2603dac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Respect/Validation/zipball/16a72ade950aaf433c387dd3fd3eb70cf296b152",
-                "reference": "16a72ade950aaf433c387dd3fd3eb70cf296b152",
+                "url": "https://api.github.com/repos/Respect/Validation/zipball/d08f032c9ec1e3e2cfa6f8c53c64035fa2603dac",
+                "reference": "d08f032c9ec1e3e2cfa6f8c53c64035fa2603dac",
                 "shasum": ""
             },
             "require": {
@@ -1123,7 +1124,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.9-dev"
+                    "dev-master": "0.8-dev"
                 }
             },
             "autoload": {
@@ -1148,7 +1149,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2015-02-11 15:14:45"
+            "time": "2015-02-07 20:12:08"
         },
         {
             "name": "sebastian/comparator",
@@ -1741,21 +1742,15 @@
             "time": "2015-01-25 04:39:26"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "respect/validation": 20,
         "squizlabs/php_codesniffer": 20
     },
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
 }

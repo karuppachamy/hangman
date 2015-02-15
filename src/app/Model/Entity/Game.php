@@ -138,12 +138,12 @@ class Game
         return (self::MAX_TRIES - $this->getTries() == 0);
     }
 
-    public function getStatus() 
+    public function getStatus()
     {
         return $this->status;
     }
 
-    public function setStatus($status) 
+    public function setStatus($status)
     {
         $this->status = $status;
     }
@@ -163,5 +163,4 @@ class Game
         
         return $data;
     }
-
 }

@@ -2,6 +2,7 @@
 namespace Model\Entity;
 
 use Doctrine\ORM\Mapping;
+
 /**
  * @Entity
  * @Table(name="user")
@@ -55,6 +56,4 @@ class User
     {
         return $this->name;
     }
-
-
 }
