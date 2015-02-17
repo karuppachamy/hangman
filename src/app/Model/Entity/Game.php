@@ -11,6 +11,23 @@ use Doctrine\ORM\Mapping;
 
 class Game
 {
+    const GAME_STATUS_SUCCESS = 2;
+
+    const GAME_STATUS_FAILURE = 1;
+
+    const GAME_STATUS_BUSY = 0;
+
+    const SUCCESS = 'Success';
+
+    const FAILURE = 'Failure';
+
+    const BUSY = 'Busy';
+
+    private $statusDescription = array(
+        self::GAME_STATUS_FAILURE => self::FAILURE,
+        self::GAME_STATUS_SUCCESS => self::GAME_STATUS_SUCCESS,
+        self::GAME_STATUS_BUSY => self::BUSY
+    );
     /**
      * @var integer
      *
@@ -37,6 +54,13 @@ class Game
      * @Column(name="guessword", type="string", length=64)
      */
     private $guessWord;
+    
+    /**
+     *
+     * @var integer
+     * @Column(name="status", type="integer", length=2)
+     */
+    private $status;
 
     const MAX_TRIES = 11;
 
@@ -114,6 +138,16 @@ class Game
         return (self::MAX_TRIES - $this->getTries() == 0);
     }
 
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
     public function toArray()
     {
         $data = array();
@@ -125,8 +159,8 @@ class Game
         $data['remainingTries'] = self::MAX_TRIES - $this->getTries();
         $data['success'] = $this->isSuccess();
         $data['failure'] = $this->isFailure();
-
+        $data['status'] = $this->statusDescription[$this->getStatus()];
+        
         return $data;
     }
-
 }

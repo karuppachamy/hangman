@@ -10,4 +10,4 @@ $entityManager = Doctrine\ORM\EntityManager::create($dbParams, $config);
 $app  = new \Slim\Slim(array(
     'debug' => true
 ));
-$app->entityManager = $entityManager;
+
