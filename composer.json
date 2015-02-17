@@ -3,12 +3,14 @@
         "slim/slim": "2.*",
         "doctrine/orm": "2.4.2",
         "phpunit/phpunit": "4.5.*",
-        "respect/validation": "0.8.*@dev"
+        "respect/validation": "0.8.*@dev",
+        "squizlabs/php_codesniffer": "dev-master"
     },
     "autoload": {
         "psr-4": {
             "Model\\": "src/app/Model",
-            "Service\\": "src/app/Service"
+            "Service\\": "src/app/Service",
+            "Phpunit\\":"src/app/phpunit"
         }
     }
 }
