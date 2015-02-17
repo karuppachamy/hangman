@@ -16,13 +16,19 @@ Rules:
 
 
 API usage: (Replace localhost with your own hostname)
+
   Create new game[POST]:
+  
   http://localhost:8080/hangman/game
+  
   
   Guess[PUT]:
   http://localhost:8080/hangman/game/{id}
+  
   Put params: {"char":"n"}
   
+  
   Get all the available games:
+  
   http://localhost:8080/hangman/game
 
