@@ -25,7 +25,7 @@ class Game
 
     private $statusDescription = array(
         self::GAME_STATUS_FAILURE => self::FAILURE,
-        self::GAME_STATUS_SUCCESS => self::GAME_STATUS_SUCCESS,
+        self::GAME_STATUS_SUCCESS => self::SUCCESS,
         self::GAME_STATUS_BUSY => self::BUSY
     );
     /**
@@ -153,12 +153,9 @@ class Game
         $data = array();
 
         $data['id'] = $this->getId();
-        $data['word'] = $this->getWord();
         $data['guessWord'] = $this->getGuessWord();
         $data['tries'] = $this->getTries();
         $data['remainingTries'] = self::MAX_TRIES - $this->getTries();
-        $data['success'] = $this->isSuccess();
-        $data['failure'] = $this->isFailure();
         $data['status'] = $this->statusDescription[$this->getStatus()];
         
         return $data;
