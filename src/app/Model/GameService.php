@@ -9,6 +9,9 @@ class GameService
 {
     private $wordService;
     private $persistenceService;
+    const CHARACTER_MASK = '-';
+    const INITIAL_TRY_VALUE = 0;
+    const INCREMENT_TRY_VALUE = 1;
 
     /**
      *
@@ -50,8 +53,8 @@ class GameService
         $game = new Game();
         $game->setWord($this->wordService->getRandomWord());
         $game->setGuessWord($this->convertToUnderScore($game->getWord()));
-        $game->setTries(0);
-        $game->setStatus(0);
+        $game->setTries(self::INITIAL_TRY_VALUE);
+        $game->setStatus(self::INITIAL_TRY_VALUE);
         
         return $game;
     }
@@ -95,7 +98,7 @@ class GameService
      */
     public function convertToUnderScore($word)
     {
-        return str_repeat('-', strlen($word));
+        return str_repeat(self::CHARACTER_MASK, strlen($word));
     }
 
     /**
@@ -114,7 +117,7 @@ class GameService
             $processedWord =  $this->replaceUnderScoreWithCharacter($guessedCharacters, $game);
             $game->setGuessWord($processedWord);
         } else {
-            $game->setTries(1);
+            $game->setTries(self::INCREMENT_TRY_VALUE);
         }
         
         $this->updateGameStatus($game);
@@ -125,7 +128,7 @@ class GameService
      *
      * @param Game $game
      */
-    private function updateGameStatus($game)
+    private function updateGameStatus(Game $game)
     {
         if ($game->isSuccess()) {
             $game->setStatus(Game::GAME_STATUS_SUCCESS);
